@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { ShoppingCart, User, LogOut, Menu, X, Home, Package, Plus, Settings } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Menu, X, Home, Package, Plus, Settings, BarChart3 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
