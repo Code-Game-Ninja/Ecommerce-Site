@@ -33,8 +33,8 @@ const productSchema = new mongoose.Schema({
   stock: { type: Number, default: 0 },
   sizes: [{ type: String }],
   colors: [{ type: String }],
-  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  vendorName: { type: String, required: true }
+  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  vendorName: { type: String }
 });
 
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
         const productData = {
           ...req.body,
           vendor: vendor._id,
-          vendorName: vendor.name
+          vendorName: vendor.name || 'Unknown Vendor'
         };
 
         // Validate required fields
@@ -94,9 +94,11 @@ export default async function handler(req, res) {
           return res.status(400).json({ message: 'Missing required fields: name, description, price, category, image' });
         }
 
+        console.log('Creating vendor product:', productData);
         const product = new Product(productData);
         await product.save();
         
+        console.log('Product created successfully:', product._id);
         res.status(201).json(product);
       } catch (error) {
         console.error('Vendor product creation error:', error);
