@@ -23,6 +23,13 @@ const authenticateToken = (req) => {
   }
 };
 
+// Check if user is vendor
+const checkVendorRole = (user) => {
+  if (user.role !== 'vendor') {
+    throw new Error('Vendor access required');
+  }
+};
+
 // Order Schema
 const orderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -57,24 +64,17 @@ export default async function handler(req, res) {
       case 'GET':
         try {
           const user = authenticateToken(req);
-          const orders = await Order.find({ user: user.userId }).populate('products.product');
+          checkVendorRole(user);
+          
+          // Get all orders with populated user and product details
+          const orders = await Order.find()
+            .populate('user', 'name email')
+            .populate('products.product', 'name image category')
+            .sort({ createdAt: -1 });
+          
           res.json(orders);
         } catch (error) {
-          res.status(401).json({ message: error.message });
-        }
-        break;
-
-      case 'POST':
-        try {
-          const user = authenticateToken(req);
-          const order = new Order({
-            user: user.userId,
-            ...req.body
-          });
-          await order.save();
-          res.status(201).json(order);
-        } catch (error) {
-          if (error.message.includes('token')) {
+          if (error.message.includes('token') || error.message.includes('Vendor access')) {
             res.status(401).json({ message: error.message });
           } else {
             res.status(500).json({ message: 'Server error' });
@@ -85,6 +85,8 @@ export default async function handler(req, res) {
       case 'PUT':
         try {
           const user = authenticateToken(req);
+          checkVendorRole(user);
+          
           const { id } = req.query;
           const { status } = req.body;
           
@@ -92,18 +94,20 @@ export default async function handler(req, res) {
             return res.status(400).json({ message: 'Order ID and status are required' });
           }
           
-          const order = await Order.findOne({ _id: id, user: user.userId });
-          if (!order) {
+          const updatedOrder = await Order.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+          ).populate('user', 'name email')
+           .populate('products.product', 'name image category');
+          
+          if (!updatedOrder) {
             return res.status(404).json({ message: 'Order not found' });
           }
           
-          order.status = status;
-          await order.save();
-          
-          const updatedOrder = await Order.findById(id).populate('products.product');
           res.json(updatedOrder);
         } catch (error) {
-          if (error.message.includes('token')) {
+          if (error.message.includes('token') || error.message.includes('Vendor access')) {
             res.status(401).json({ message: error.message });
           } else {
             res.status(500).json({ message: 'Server error' });
@@ -115,7 +119,7 @@ export default async function handler(req, res) {
         res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Orders error:', error);
+    console.error('Vendor Orders error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 } 

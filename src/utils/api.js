@@ -123,4 +123,18 @@ export const ordersAPI = {
       body: JSON.stringify({ status }),
     });
   },
+};
+
+// Vendor Orders API
+export const vendorOrdersAPI = {
+  getAllOrders: async () => {
+    return apiRequest('/vendor/orders');
+  },
+
+  updateOrderStatus: async (orderId, status) => {
+    return apiRequest(`/vendor/orders/${orderId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    });
+  },
 }; 

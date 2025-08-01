@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { productsAPI, ordersAPI } from '../utils/api';
+import { productsAPI, vendorOrdersAPI } from '../utils/api';
 import { 
   Package, 
   ShoppingCart, 
@@ -12,7 +12,8 @@ import {
   AlertCircle,
   CheckCircle,
   Clock,
-  BarChart3
+  BarChart3,
+  RefreshCw
 } from 'lucide-react';
 
 const VendorDashboard = () => {
@@ -41,7 +42,7 @@ const VendorDashboard = () => {
     try {
       const [productsData, ordersData] = await Promise.all([
         productsAPI.getAll(),
-        ordersAPI.getUserOrders()
+        vendorOrdersAPI.getAllOrders()
       ]);
       setProducts(productsData);
       setOrders(ordersData);
@@ -127,6 +128,18 @@ const VendorDashboard = () => {
     setShowForm(false);
   };
 
+  const handleStatusUpdate = async (orderId, newStatus) => {
+    try {
+      await vendorOrdersAPI.updateOrderStatus(orderId, newStatus);
+      // Refresh orders data
+      const updatedOrders = await vendorOrdersAPI.getAllOrders();
+      setOrders(updatedOrders);
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      alert('Error updating order status. Please try again.');
+    }
+  };
+
   // Calculate dashboard metrics
   const totalProducts = products.length;
   const totalOrders = orders.length;
@@ -169,9 +182,19 @@ const VendorDashboard = () => {
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">Vendor Dashboard</h1>
-          <p className="text-gray-300">Manage your products and track your business</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-white">Vendor Dashboard</h1>
+            <p className="text-gray-300">Manage your products and track your business</p>
+          </div>
+          <button
+            onClick={fetchData}
+            disabled={loading}
+            className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all duration-300 disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            <span>Refresh Data</span>
+          </button>
         </div>
 
         {/* Navigation Tabs */}
@@ -560,24 +583,64 @@ const VendorDashboard = () => {
                       </div>
                     </div>
 
+                    {/* Products in Order */}
+                    <div className="mb-4">
+                      <h4 className="text-white font-medium mb-3">Products</h4>
+                      <div className="space-y-2">
+                        {order.products?.map((item, index) => (
+                          <div key={index} className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
+                            <img
+                              src={item.product?.image || '/placeholder.jpg'}
+                              alt={item.product?.name || 'Product'}
+                              className="w-12 h-12 object-cover rounded-lg"
+                            />
+                            <div className="flex-1">
+                              <p className="text-white font-medium">{item.product?.name || 'Product'}</p>
+                              <p className="text-gray-400 text-sm">Qty: {item.quantity} × ${item.price}</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-white font-semibold">${(item.quantity * item.price).toFixed(2)}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <h4 className="text-white font-medium mb-2">Shipping Information</h4>
+                        <h4 className="text-white font-medium mb-2">Customer Information</h4>
                         <div className="text-gray-300 text-sm space-y-1">
-                          <p>{order.shippingInfo?.fullName}</p>
-                          <p>{order.shippingInfo?.email}</p>
-                          <p>{order.shippingInfo?.phone}</p>
-                          <p>{order.shippingInfo?.address}</p>
-                          <p>{order.shippingInfo?.city}, {order.shippingInfo?.state} {order.shippingInfo?.zipCode}</p>
+                          <p><strong>Name:</strong> {order.shippingInfo?.fullName}</p>
+                          <p><strong>Email:</strong> {order.shippingInfo?.email}</p>
+                          <p><strong>Phone:</strong> {order.shippingInfo?.phone}</p>
+                          <p><strong>Address:</strong></p>
+                          <p className="ml-2">{order.shippingInfo?.address}</p>
+                          <p className="ml-2">{order.shippingInfo?.city}, {order.shippingInfo?.state} {order.shippingInfo?.zipCode}</p>
                         </div>
                       </div>
 
                       <div>
                         <h4 className="text-white font-medium mb-2">Order Details</h4>
                         <div className="text-gray-300 text-sm space-y-1">
-                          <p>Payment Method: {order.paymentMethod}</p>
-                          <p>Items: {order.products?.length || 0}</p>
-                          <p>Status: {order.status}</p>
+                          <p><strong>Payment Method:</strong> {order.paymentMethod?.toUpperCase()}</p>
+                          <p><strong>Items:</strong> {order.products?.length || 0}</p>
+                          <p><strong>Status:</strong> {order.status}</p>
+                        </div>
+                        
+                        {/* Status Update */}
+                        <div className="mt-4">
+                          <h5 className="text-white font-medium mb-2">Update Status</h5>
+                          <select
+                            value={order.status}
+                            onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
+                            className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                          </select>
                         </div>
                       </div>
                     </div>
