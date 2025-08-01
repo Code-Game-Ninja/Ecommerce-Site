@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ordersAPI } from '../utils/api';
@@ -21,14 +20,14 @@ import {
 const Checkout = () => {
   const navigate = useNavigate();
   const { cart, getTotalPrice, clearCart } = useCart();
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, loading } = useAuth();
   
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [shippingInfo, setShippingInfo] = useState({
-    fullName: user?.name || '',
-    email: user?.email || '',
+    fullName: '',
+    email: '',
     phone: '',
     address: '',
     city: '',
@@ -36,6 +35,17 @@ const Checkout = () => {
     zipCode: '',
     country: 'India'
   });
+
+  // Update shipping info when user data is available
+  useEffect(() => {
+    if (user) {
+      setShippingInfo(prev => ({
+        ...prev,
+        fullName: user.name || '',
+        email: user.email || ''
+      }));
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -46,6 +56,17 @@ const Checkout = () => {
       navigate('/cart');
     }
   }, [isLoggedIn, cart, navigate]);
+
+  // Add error boundary for debugging
+  if (!cart) {
+    console.error('Cart is undefined');
+    return <div className="min-h-screen flex items-center justify-center text-white">Loading...</div>;
+  }
+
+  // Add loading state while checking authentication
+  if (!isLoggedIn && !loading) {
+    return <div className="min-h-screen flex items-center justify-center text-white">Redirecting to login...</div>;
+  }
 
   const handleInputChange = (e) => {
     setShippingInfo({
@@ -90,11 +111,7 @@ const Checkout = () => {
   if (orderSuccess) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-8 text-center shadow-2xl max-w-md w-full"
-        >
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-8 text-center shadow-2xl max-w-md w-full">
           <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-white mb-2">Order Placed Successfully!</h2>
           <p className="text-gray-300 mb-4">
@@ -103,7 +120,7 @@ const Checkout = () => {
           <div className="text-sm text-gray-400">
             Redirecting to dashboard...
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -128,11 +145,7 @@ const Checkout = () => {
           {/* Checkout Form */}
           <div className="space-y-6">
             {/* Shipping Information */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl"
-            >
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
               <div className="flex items-center space-x-2 mb-4">
                 <MapPin className="w-5 h-5 text-purple-400" />
                 <h2 className="text-xl font-semibold text-white">Shipping Information</h2>
@@ -238,15 +251,10 @@ const Checkout = () => {
                   </div>
                 </div>
               </form>
-            </motion.div>
+            </div>
 
             {/* Payment Method */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl"
-            >
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
               <div className="flex items-center space-x-2 mb-4">
                 <CreditCard className="w-5 h-5 text-purple-400" />
                 <h2 className="text-xl font-semibold text-white">Payment Method</h2>
@@ -348,16 +356,11 @@ const Checkout = () => {
                   </div>
                 </div>
               )}
-            </motion.div>
+            </div>
           </div>
 
           {/* Order Summary */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="space-y-6"
-          >
+          <div className="space-y-6">
             <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
               <h2 className="text-xl font-semibold text-white mb-4">Order Summary</h2>
               
@@ -383,7 +386,7 @@ const Checkout = () => {
               <div className="border-t border-white/10 mt-4 pt-4 space-y-2">
                 <div className="flex justify-between text-gray-300">
                   <span>Subtotal</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>${getTotalPrice().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
                   <span>Shipping</span>
@@ -391,11 +394,11 @@ const Checkout = () => {
                 </div>
                 <div className="flex justify-between text-gray-300">
                   <span>Tax</span>
-                  <span>${(total * 0.18).toFixed(2)}</span>
+                  <span>${(getTotalPrice() * 0.18).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold text-white border-t border-white/10 pt-2">
                   <span>Total</span>
-                  <span>${(total + (total * 0.18)).toFixed(2)}</span>
+                  <span>${(getTotalPrice() + (getTotalPrice() * 0.18)).toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -412,10 +415,10 @@ const Checkout = () => {
                   <span>Processing Order...</span>
                 </div>
               ) : (
-                `Place Order - $${(total + (total * 0.18)).toFixed(2)}`
+                `Place Order - $${(getTotalPrice() + (getTotalPrice() * 0.18)).toFixed(2)}`
               )}
             </button>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

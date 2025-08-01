@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
+import ErrorBoundary from './components/ErrorBoundary';
 import Orb from './components/Orb';
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -120,7 +121,11 @@ function App() {
                     </ProtectedRoute>
                   } />
                   <Route path="/cart" element={<Cart />} />
-                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/checkout" element={
+                    <ErrorBoundary>
+                      <Checkout />
+                    </ErrorBoundary>
+                  } />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
