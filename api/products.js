@@ -13,7 +13,9 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   category: { type: String, required: true },
   image: { type: String, required: true },
-  stock: { type: Number, default: 0 }
+  stock: { type: Number, default: 0 },
+  sizes: [{ type: String }],
+  colors: [{ type: String }]
 });
 
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);

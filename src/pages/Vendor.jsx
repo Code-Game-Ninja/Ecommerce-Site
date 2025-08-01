@@ -63,6 +63,7 @@ const Vendor = () => {
         price: '',
         category: '',
         image: '',
+        stock: '',
         sizes: '',
         colors: ''
       });

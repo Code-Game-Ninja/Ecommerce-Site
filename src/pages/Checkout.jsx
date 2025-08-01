@@ -20,7 +20,7 @@ import {
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cartItems, total, clearCart } = useCart();
+  const { cart, getTotalPrice, clearCart } = useCart();
   const { isLoggedIn, user } = useAuth();
   
   const [paymentMethod, setPaymentMethod] = useState('cod');
@@ -42,10 +42,10 @@ const Checkout = () => {
       navigate('/login');
       return;
     }
-    if (cartItems.length === 0) {
+    if (cart.length === 0) {
       navigate('/cart');
     }
-  }, [isLoggedIn, cartItems, navigate]);
+  }, [isLoggedIn, cart, navigate]);
 
   const handleInputChange = (e) => {
     setShippingInfo({
@@ -60,12 +60,12 @@ const Checkout = () => {
 
     try {
       const orderData = {
-        products: cartItems.map(item => ({
+        products: cart.map(item => ({
           product: item._id,
           quantity: item.quantity,
           price: item.price
         })),
-        total: total,
+        total: getTotalPrice(),
         shippingInfo,
         paymentMethod,
         status: paymentMethod === 'cod' ? 'pending' : 'processing'
@@ -362,7 +362,7 @@ const Checkout = () => {
               <h2 className="text-xl font-semibold text-white mb-4">Order Summary</h2>
               
               <div className="space-y-4">
-                {cartItems.map((item) => (
+                {cart.map((item) => (
                   <div key={item._id} className="flex items-center space-x-4">
                     <img
                       src={item.image}
