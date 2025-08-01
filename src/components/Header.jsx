@@ -49,6 +49,7 @@ const Header = () => {
   // Add vendor panel only for vendors
   if (isVendor()) {
     userMenuItems.push({ path: '/vendor', label: 'Vendor Panel', icon: Plus });
+    userMenuItems.push({ path: '/vendor-dashboard', label: 'Vendor Dashboard', icon: BarChart3 });
   }
 
   return (

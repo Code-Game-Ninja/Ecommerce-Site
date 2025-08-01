@@ -3,13 +3,16 @@ import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
+import Orb from './components/Orb';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Vendor from './pages/Vendor';
+import VendorDashboard from './pages/VendorDashboard';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
@@ -57,6 +60,15 @@ function App() {
         </div>
       </div>
 
+      {/* Orb Background */}
+      <div className="fixed inset-0 pointer-events-none opacity-30">
+        <Orb 
+          hue={30} 
+          hoverIntensity={0.1} 
+          rotateOnHover={false}
+        />
+      </div>
+
       {/* Floating particles effect */}
       <div className="fixed inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -102,7 +114,13 @@ function App() {
                       <Vendor />
                     </ProtectedRoute>
                   } />
+                  <Route path="/vendor-dashboard" element={
+                    <ProtectedRoute requireVendor={true}>
+                      <VendorDashboard />
+                    </ProtectedRoute>
+                  } />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<Checkout />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

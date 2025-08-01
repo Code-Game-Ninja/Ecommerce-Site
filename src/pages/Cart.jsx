@@ -23,28 +23,8 @@ const Cart = () => {
       return;
     }
 
-    setLoading(true);
-
-    try {
-      const orderData = {
-        products: cart.map(item => ({
-          productId: item._id,
-          quantity: item.quantity,
-          price: item.price
-        })),
-        totalAmount: getTotalPrice()
-      };
-
-      await ordersAPI.create(orderData);
-      clearCart();
-      alert('Order placed successfully!');
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Error placing order:', error);
-      alert('Error placing order. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    // Navigate to checkout page
+    navigate('/checkout');
   };
 
   const handleContinueShopping = () => {

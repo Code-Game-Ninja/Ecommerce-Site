@@ -12,6 +12,7 @@ const Vendor = () => {
     price: '',
     category: '',
     image: '',
+    stock: '',
     sizes: '',
     colors: ''
   });
@@ -44,6 +45,7 @@ const Vendor = () => {
     const productData = {
       ...formData,
       price: parseFloat(formData.price),
+      stock: parseInt(formData.stock) || 0,
       sizes: formData.sizes.split(',').map(size => size.trim()).filter(size => size),
       colors: formData.colors.split(',').map(color => color.trim()).filter(color => color)
     };
@@ -75,15 +77,16 @@ const Vendor = () => {
 
   const handleEdit = (product) => {
     setEditingProduct(product);
-    setFormData({
-      name: product.name,
-      description: product.description,
-      price: product.price.toString(),
-      category: product.category,
-      image: product.image,
-      sizes: product.sizes.join(', '),
-      colors: product.colors.join(', ')
-    });
+          setFormData({
+        name: product.name,
+        description: product.description,
+        price: product.price.toString(),
+        category: product.category,
+        image: product.image,
+        stock: product.stock.toString(),
+        sizes: product.sizes.join(', '),
+        colors: product.colors.join(', ')
+      });
     setShowForm(true);
   };
 
@@ -106,6 +109,7 @@ const Vendor = () => {
       price: '',
       category: '',
       image: '',
+      stock: '',
       sizes: '',
       colors: ''
     });
@@ -155,7 +159,7 @@ const Vendor = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
                       Description
                     </label>
                     <textarea
@@ -164,12 +168,12 @@ const Vendor = () => {
                       onChange={handleChange}
                       required
                       rows="3"
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
                       Price ($)
                     </label>
                     <input
@@ -180,12 +184,28 @@ const Vendor = () => {
                       required
                       step="0.01"
                       min="0"
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
+                      Stock Quantity
+                    </label>
+                    <input
+                      type="number"
+                      name="stock"
+                      value={formData.stock}
+                      onChange={handleChange}
+                      required
+                      min="0"
+                      placeholder="Enter stock quantity"
+                      className="w-full border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
                       Category
                     </label>
                     <select
@@ -193,7 +213,7 @@ const Vendor = () => {
                       value={formData.category}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800/50 text-white backdrop-blur-sm"
                     >
                       <option value="">Select Category</option>
                       <option value="T-Shirts">T-Shirts</option>
@@ -206,7 +226,7 @@ const Vendor = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
                       Image URL
                     </label>
                     <input
@@ -215,12 +235,12 @@ const Vendor = () => {
                       value={formData.image}
                       onChange={handleChange}
                       required
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
                       Sizes (comma-separated)
                     </label>
                     <input
@@ -229,12 +249,12 @@ const Vendor = () => {
                       value={formData.sizes}
                       onChange={handleChange}
                       placeholder="S, M, L, XL"
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
                       Colors (comma-separated)
                     </label>
                     <input
@@ -243,25 +263,25 @@ const Vendor = () => {
                       value={formData.colors}
                       onChange={handleChange}
                       placeholder="Red, Blue, Green"
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full border border-gray-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm"
                     />
                   </div>
 
-                  <div className="flex space-x-3">
-                    <button
-                      type="submit"
-                      className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors"
-                    >
-                      {editingProduct ? 'Update Product' : 'Add Product'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={resetForm}
-                      className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                                     <div className="flex space-x-3">
+                     <button
+                       type="submit"
+                       className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                     >
+                       {editingProduct ? 'Update Product' : 'Add Product'}
+                     </button>
+                     <button
+                       type="button"
+                       onClick={resetForm}
+                       className="flex-1 bg-white/10 backdrop-blur-sm text-white py-3 rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
+                     >
+                       Cancel
+                     </button>
+                   </div>
                 </form>
               </div>
             </div>
@@ -269,16 +289,16 @@ const Vendor = () => {
 
           {/* Products List */}
           <div className={showForm ? "lg:col-span-2" : "lg:col-span-3"}>
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Products</h2>
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
+              <h2 className="text-xl font-semibold text-white mb-6">Your Products</h2>
               
               {loading ? (
                 <div className="text-center py-8">
-                  <div className="text-gray-500">Loading products...</div>
+                  <div className="text-gray-300">Loading products...</div>
                 </div>
               ) : products.length === 0 ? (
                 <div className="text-center py-8">
-                  <div className="text-gray-500 mb-4">No products found</div>
+                  <div className="text-gray-300 mb-4">No products found</div>
                   <p className="text-sm text-gray-400">
                     Start by adding your first product.
                   </p>
@@ -286,29 +306,32 @@ const Vendor = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {products.map((product) => (
-                    <div key={product._id} className="border border-gray-200 rounded-lg p-4">
+                    <div key={product._id} className="border border-white/10 rounded-xl p-4 bg-white/5 backdrop-blur-sm">
                       <div className="flex items-start space-x-4">
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="w-20 h-20 object-cover rounded"
+                          className="w-20 h-20 object-cover rounded-lg"
                         />
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900">{product.name}</h3>
-                          <p className="text-sm text-gray-600 mb-2">{product.description}</p>
-                          <p className="text-lg font-bold text-blue-600">${product.price}</p>
-                          <p className="text-sm text-gray-500">{product.category}</p>
+                          <h3 className="font-semibold text-white">{product.name}</h3>
+                          <p className="text-sm text-gray-300 mb-2">{product.description}</p>
+                          <p className="text-lg font-bold text-blue-400">${product.price}</p>
+                          <p className="text-sm text-gray-400">{product.category}</p>
+                          <p className={`text-sm ${product.stock > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            Stock: {product.stock > 0 ? `${product.stock} available` : 'Out of Stock'}
+                          </p>
                         </div>
                         <div className="flex flex-col space-y-2">
                           <button
                             onClick={() => handleEdit(product)}
-                            className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors"
+                            className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700 transition-colors"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDelete(product._id)}
-                            className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors"
+                            className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-700 transition-colors"
                           >
                             Delete
                           </button>

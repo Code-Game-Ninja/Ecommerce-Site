@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authAPI } from '../utils/api';
+import TextType from '../components/TextType';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -63,9 +64,27 @@ const Signup = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Create your account
+            Join StyleStore!
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-300">
+          <div className="mt-2 text-center text-sm text-gray-300 mb-4">
+            <TextType
+              text={[
+                "Create your account and start your fashion journey.",
+                "Get exclusive access to new arrivals and sales.",
+                "Save your favorite items and track your orders.",
+                "Become part of our growing fashion community."
+              ]}
+              typingSpeed={60}
+              deletingSpeed={40}
+              pauseDuration={2500}
+              className="text-sm"
+              textColors={["#cbd5e1", "#94a3b8", "#64748b", "#475569"]}
+              showCursor={true}
+              cursorCharacter="|"
+              cursorClassName="text-purple-400"
+            />
+          </div>
+          <p className="mt-4 text-center text-sm text-gray-300">
             Or{' '}
             <Link
               to="/login"

@@ -5,6 +5,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { productsAPI } from '../utils/api';
 import ProductCard from '../components/ProductCard';
+import Orb from '../components/Orb';
+import TextType from '../components/TextType';
 import { ShoppingBag, Star, TrendingUp, Shield, Truck, ArrowRight, Sparkles } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -111,10 +113,20 @@ const Home = () => {
     <div className="relative overflow-hidden">
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        {/* Orb Background */}
+        <div className="absolute inset-0">
+          <Orb 
+            hue={45} 
+            hoverIntensity={0.3} 
+            rotateOnHover={true}
+            className="w-full h-full"
+          />
+        </div>
+        
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
             animate={{
               scale: [1, 1.2, 1],
               rotate: [0, 180, 360],
@@ -126,7 +138,7 @@ const Home = () => {
             }}
           />
           <motion.div
-            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"
             animate={{
               scale: [1.2, 1, 1.2],
               rotate: [360, 180, 0],
@@ -159,21 +171,35 @@ const Home = () => {
             className="text-5xl md:text-7xl font-bold mb-6"
           >
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              Elevate Your
+              Welcome to
             </span>
             <br />
-            <span className="text-white">Style Game</span>
+            <span className="text-white">StyleStore</span>
           </motion.h1>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto"
           >
-            Discover curated fashion pieces that define your unique personality. 
-            From casual wear to elegant ensembles, we've got you covered.
-          </motion.p>
+            <TextType
+              text={[
+                "Discover curated fashion pieces that define your unique personality.",
+                "From casual wear to elegant ensembles, we've got you covered.",
+                "Experience the future of online fashion shopping.",
+                "Quality meets style in every piece we offer."
+              ]}
+              typingSpeed={80}
+              deletingSpeed={50}
+              pauseDuration={2000}
+              className="text-xl md:text-2xl font-medium"
+              textColors={["#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"]}
+              showCursor={true}
+              cursorCharacter="|"
+              cursorClassName="text-purple-400"
+            />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
