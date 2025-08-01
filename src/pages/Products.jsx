@@ -66,10 +66,26 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
+      setLoading(true);
+      console.log('Fetching products...');
       const data = await productsAPI.getAllProducts();
-      setProducts(data);
+      console.log('Products fetched:', data);
+      setProducts(data || []);
     } catch (error) {
       console.error('Error fetching products:', error);
+      // Retry once after 2 seconds
+      setTimeout(async () => {
+        try {
+          console.log('Retrying product fetch...');
+          const retryData = await productsAPI.getAllProducts();
+          setProducts(retryData || []);
+        } catch (retryError) {
+          console.error('Retry failed:', retryError);
+          setProducts([]);
+        } finally {
+          setLoading(false);
+        }
+      }, 2000);
     } finally {
       setLoading(false);
     }
