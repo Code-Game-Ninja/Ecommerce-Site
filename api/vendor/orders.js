@@ -23,11 +23,29 @@ const authenticateToken = (req) => {
   }
 };
 
+// User Schema
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, default: 'customer', enum: ['customer', 'vendor'] }
+});
+
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
 // Check if user is vendor
-const checkVendorRole = (user) => {
-  if (user.role !== 'vendor') {
+const checkVendorRole = async (tokenData) => {
+  // First check if role is in token payload
+  if (tokenData.role && tokenData.role === 'vendor') {
+    return { _id: tokenData.userId, role: 'vendor' };
+  }
+  
+  // If not in token, fetch from database
+  const user = await User.findById(tokenData.userId);
+  if (!user || user.role !== 'vendor') {
     throw new Error('Vendor access required');
   }
+  return user;
 };
 
 // Product Schema (needed for population)
@@ -39,7 +57,9 @@ const productSchema = new mongoose.Schema({
   image: { type: String, required: true },
   stock: { type: Number, default: 0 },
   sizes: [{ type: String }],
-  colors: [{ type: String }]
+  colors: [{ type: String }],
+  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  vendorName: { type: String }
 });
 
 // Order Schema
@@ -76,13 +96,13 @@ export default async function handler(req, res) {
     switch (req.method) {
       case 'GET':
         try {
-          const user = authenticateToken(req);
-          checkVendorRole(user);
+          const tokenData = authenticateToken(req);
+          const vendor = await checkVendorRole(tokenData);
           
           // Get all orders with populated user and product details
           const orders = await Order.find()
             .populate('user', 'name email')
-            .populate('products.product', 'name image category')
+            .populate('products.product', 'name image category vendor vendorName')
             .sort({ createdAt: -1 });
           
           res.json(orders);
@@ -97,8 +117,8 @@ export default async function handler(req, res) {
 
       case 'PUT':
         try {
-          const user = authenticateToken(req);
-          checkVendorRole(user);
+          const tokenData = authenticateToken(req);
+          const vendor = await checkVendorRole(tokenData);
           
           const { id } = req.query;
           const { status } = req.body;
@@ -112,7 +132,7 @@ export default async function handler(req, res) {
             { status },
             { new: true }
           ).populate('user', 'name email')
-           .populate('products.product', 'name image category');
+           .populate('products.product', 'name image category vendor vendorName');
           
           if (!updatedOrder) {
             return res.status(404).json({ message: 'Order not found' });

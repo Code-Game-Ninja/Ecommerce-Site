@@ -446,11 +446,36 @@ const VendorDashboard = () => {
                         >
                           <option value="">Select Category</option>
                           <option value="T-Shirts">T-Shirts</option>
-                          <option value="Jeans">Jeans</option>
-                          <option value="Hoodies">Hoodies</option>
                           <option value="Shirts">Shirts</option>
+                          <option value="Jeans">Jeans</option>
+                          <option value="Pants">Pants</option>
+                          <option value="Shorts">Shorts</option>
                           <option value="Dresses">Dresses</option>
+                          <option value="Skirts">Skirts</option>
+                          <option value="Hoodies">Hoodies</option>
+                          <option value="Sweaters">Sweaters</option>
+                          <option value="Jackets">Jackets</option>
+                          <option value="Coats">Coats</option>
                           <option value="Shoes">Shoes</option>
+                          <option value="Boots">Boots</option>
+                          <option value="Sneakers">Sneakers</option>
+                          <option value="Accessories">Accessories</option>
+                          <option value="Bags">Bags</option>
+                          <option value="Jewelry">Jewelry</option>
+                          <option value="Hats">Hats</option>
+                          <option value="Scarves">Scarves</option>
+                          <option value="Belts">Belts</option>
+                          <option value="Watches">Watches</option>
+                          <option value="Sunglasses">Sunglasses</option>
+                          <option value="Underwear">Underwear</option>
+                          <option value="Sleepwear">Sleepwear</option>
+                          <option value="Swimwear">Swimwear</option>
+                          <option value="Activewear">Activewear</option>
+                          <option value="Formal Wear">Formal Wear</option>
+                          <option value="Casual Wear">Casual Wear</option>
+                          <option value="Party Wear">Party Wear</option>
+                          <option value="Work Wear">Work Wear</option>
+                          <option value="Outdoor Gear">Outdoor Gear</option>
                         </select>
                       </div>
 

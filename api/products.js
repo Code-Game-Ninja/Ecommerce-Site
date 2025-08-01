@@ -15,7 +15,9 @@ const productSchema = new mongoose.Schema({
   image: { type: String, required: true },
   stock: { type: Number, default: 0 },
   sizes: [{ type: String }],
-  colors: [{ type: String }]
+  colors: [{ type: String }],
+  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  vendorName: { type: String, required: true }
 });
 
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
@@ -26,7 +28,7 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case 'GET':
-        const products = await Product.find();
+        const products = await Product.find().populate('vendor', 'name email');
         res.json(products);
         break;
 

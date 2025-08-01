@@ -20,7 +20,40 @@ const Products = () => {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const productsRef = useRef(null);
 
-  const categories = ['All', 'T-Shirts', 'Jeans', 'Hoodies', 'Shirts', 'Dresses', 'Shoes'];
+  const categories = [
+    'All',
+    'T-Shirts',
+    'Shirts',
+    'Jeans',
+    'Pants',
+    'Shorts',
+    'Dresses',
+    'Skirts',
+    'Hoodies',
+    'Sweaters',
+    'Jackets',
+    'Coats',
+    'Shoes',
+    'Boots',
+    'Sneakers',
+    'Accessories',
+    'Bags',
+    'Jewelry',
+    'Hats',
+    'Scarves',
+    'Belts',
+    'Watches',
+    'Sunglasses',
+    'Underwear',
+    'Sleepwear',
+    'Swimwear',
+    'Activewear',
+    'Formal Wear',
+    'Casual Wear',
+    'Party Wear',
+    'Work Wear',
+    'Outdoor Gear'
+  ];
 
   useEffect(() => {
     fetchProducts();

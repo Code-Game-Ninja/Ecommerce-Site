@@ -30,10 +30,39 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   category: { type: String, required: true },
   image: { type: String, required: true },
-  stock: { type: Number, default: 0 }
+  stock: { type: Number, default: 0 },
+  sizes: [{ type: String }],
+  colors: [{ type: String }],
+  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  vendorName: { type: String, required: true }
 });
 
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
+
+// User Schema for vendor lookup
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, default: 'customer', enum: ['customer', 'vendor'] }
+});
+
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
+// Check if user is vendor
+const checkVendorRole = async (tokenData) => {
+  // First check if role is in token payload
+  if (tokenData.role && tokenData.role === 'vendor') {
+    return { _id: tokenData.userId, role: 'vendor' };
+  }
+  
+  // If not in token, fetch from database
+  const user = await User.findById(tokenData.userId);
+  if (!user || user.role !== 'vendor') {
+    throw new Error('Only vendors can access this resource');
+  }
+  return user;
+};
 
 export default async function handler(req, res) {
   try {
@@ -41,11 +70,34 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
       try {
-        const user = authenticateToken(req);
-        const products = await Product.find();
+        const tokenData = authenticateToken(req);
+        const vendor = await checkVendorRole(tokenData);
+        const products = await Product.find({ vendor: vendor._id }).populate('vendor', 'name email');
         res.json(products);
       } catch (error) {
         res.status(401).json({ message: error.message });
+      }
+    } else if (req.method === 'POST') {
+      try {
+        const tokenData = authenticateToken(req);
+        const vendor = await checkVendorRole(tokenData);
+
+        const productData = {
+          ...req.body,
+          vendor: vendor._id,
+          vendorName: vendor.name
+        };
+
+        const product = new Product(productData);
+        await product.save();
+        
+        res.status(201).json(product);
+      } catch (error) {
+        if (error.message.includes('token') || error.message.includes('vendors can access')) {
+          res.status(401).json({ message: error.message });
+        } else {
+          res.status(400).json({ message: error.message });
+        }
       }
     } else {
       res.status(405).json({ message: 'Method not allowed' });
