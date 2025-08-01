@@ -17,7 +17,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState('name');
   const [viewMode, setViewMode] = useState('grid');
   const [showFilters, setShowFilters] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const productsRef = useRef(null);
 
   const categories = [
@@ -141,7 +141,7 @@ const Products = () => {
     setSearchTerm('');
     setSelectedCategory('All');
     setSortBy('name');
-    setPriceRange([0, 1000]);
+    setPriceRange([0, 10000]);
   };
 
   return (
@@ -279,7 +279,7 @@ const Products = () => {
                           type="number"
                           placeholder="Max"
                           value={priceRange[1]}
-                          onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 1000])}
+                          onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 10000])}
                           className="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
                       </div>
