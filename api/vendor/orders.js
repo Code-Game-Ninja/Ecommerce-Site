@@ -63,8 +63,11 @@ export default async function handler(req, res) {
     switch (req.method) {
       case 'GET':
         try {
+          console.log('Vendor Orders API - GET request received');
           const user = authenticateToken(req);
+          console.log('Authenticated user:', user);
           checkVendorRole(user);
+          console.log('Vendor role check passed');
           
           // Get all orders with populated user and product details
           const orders = await Order.find()
@@ -72,8 +75,10 @@ export default async function handler(req, res) {
             .populate('products.product', 'name image category')
             .sort({ createdAt: -1 });
           
+          console.log('Found orders:', orders.length);
           res.json(orders);
         } catch (error) {
+          console.error('Vendor Orders API Error:', error);
           if (error.message.includes('token') || error.message.includes('Vendor access')) {
             res.status(401).json({ message: error.message });
           } else {

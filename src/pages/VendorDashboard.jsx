@@ -40,10 +40,13 @@ const VendorDashboard = () => {
 
   const fetchData = async () => {
     try {
+      console.log('Fetching vendor data...');
       const [productsData, ordersData] = await Promise.all([
         productsAPI.getAll(),
         vendorOrdersAPI.getAllOrders()
       ]);
+      console.log('Products data:', productsData);
+      console.log('Orders data:', ordersData);
       setProducts(productsData);
       setOrders(ordersData);
     } catch (error) {
