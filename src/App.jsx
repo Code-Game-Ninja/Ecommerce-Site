@@ -10,7 +10,7 @@ import Products from './pages/Products';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
-import Vendor from './pages/Vendor';
+
 import VendorDashboard from './pages/VendorDashboard';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -110,11 +110,7 @@ function App() {
                       <Dashboard />
                     </ProtectedRoute>
                   } />
-                  <Route path="/vendor" element={
-                    <ProtectedRoute requireVendor={true}>
-                      <Vendor />
-                    </ProtectedRoute>
-                  } />
+
                   <Route path="/vendor-dashboard" element={
                     <ProtectedRoute requireVendor={true}>
                       <VendorDashboard />

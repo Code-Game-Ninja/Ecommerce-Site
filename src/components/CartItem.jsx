@@ -12,7 +12,7 @@ const CartItem = ({ item }) => {
       />
       <div className="flex-1">
         <h4 className="text-sm font-medium text-white">{item.name}</h4>
-        <p className="text-sm text-gray-300">${item.price}</p>
+        <p className="text-sm text-gray-300">₹{item.price.toLocaleString('en-IN')}</p>
       </div>
       <div className="flex items-center space-x-2">
         <button

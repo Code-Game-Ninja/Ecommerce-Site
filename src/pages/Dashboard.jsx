@@ -103,7 +103,7 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-gray-300">Total Spent</span>
                   <span className="font-semibold text-white">
-                    ${orders.reduce((total, order) => total + order.total, 0).toFixed(2)}
+                    ₹{orders.reduce((total, order) => total + order.total, 0).toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
@@ -144,7 +144,7 @@ const Dashboard = () => {
                              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                            </span>
                            <p className="text-lg font-semibold text-white mt-1">
-                             ${order.total.toFixed(2)}
+                             ₹{order.total.toLocaleString('en-IN')}
                            </p>
                          </div>
                        </div>
@@ -155,7 +155,7 @@ const Dashboard = () => {
                                <span className="text-gray-300">
                                  {item.product?.name || 'Product'} (Qty: {item.quantity})
                                </span>
-                               <span className="text-white">${item.price.toFixed(2)}</span>
+                               <span className="text-white">₹{item.price.toLocaleString('en-IN')}</span>
                              </div>
                            ))}
                          </div>

@@ -102,9 +102,9 @@ const ProductCard = ({ product }) => {
         {/* Price and Stock */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-white">${product.price}</span>
+            <span className="text-2xl font-bold text-white">₹{product.price.toLocaleString('en-IN')}</span>
             {product.originalPrice && (
-              <span className="text-gray-400 line-through">${product.originalPrice}</span>
+              <span className="text-gray-400 line-through">₹{product.originalPrice.toLocaleString('en-IN')}</span>
             )}
           </div>
           <span className={`text-sm px-2 py-1 rounded-full ${

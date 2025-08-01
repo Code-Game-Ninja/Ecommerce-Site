@@ -78,7 +78,7 @@ const Cart = () => {
                                  <div className="space-y-3 mb-6">
                    <div className="flex justify-between text-sm">
                      <span className="text-gray-300">Subtotal</span>
-                     <span className="text-white">${getTotalPrice().toFixed(2)}</span>
+                     <span className="text-white">₹{getTotalPrice().toLocaleString('en-IN')}</span>
                    </div>
                    <div className="flex justify-between text-sm">
                      <span className="text-gray-300">Shipping</span>
@@ -91,7 +91,7 @@ const Cart = () => {
                    <div className="border-t border-white/10 pt-3">
                      <div className="flex justify-between font-semibold">
                        <span className="text-white">Total</span>
-                       <span className="text-blue-400 text-lg">${getTotalPrice().toFixed(2)}</span>
+                       <span className="text-blue-400 text-lg">₹{getTotalPrice().toLocaleString('en-IN')}</span>
                      </div>
                    </div>
                  </div>

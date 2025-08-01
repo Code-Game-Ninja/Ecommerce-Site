@@ -1,0 +1,512 @@
+[
+  {
+    "name": "Classic Cotton T-Shirt",
+    "description": "Premium 100% cotton t-shirt with a comfortable fit and soft texture. Perfect for everyday wear.",
+    "price": 2074,
+    "category": "T-Shirts",
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+    "stock": 150,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["White", "Black", "Navy", "Gray"]
+  },
+  {
+    "name": "Vintage Denim Jacket",
+    "description": "Classic denim jacket with distressed finish and comfortable fit. Features button-up front and chest pockets.",
+    "price": 7469,
+    "category": "Jackets",
+    "image": "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500",
+    "stock": 45,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Light Blue", "Dark Blue", "Black"]
+  },
+  {
+    "name": "Slim Fit Jeans",
+    "description": "Modern slim fit jeans with stretch denim for maximum comfort. Perfect for casual and semi-formal occasions.",
+    "price": 6639,
+    "category": "Jeans",
+    "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500",
+    "stock": 120,
+    "sizes": ["28", "30", "32", "34", "36", "38"],
+    "colors": ["Blue", "Black", "Gray"]
+  },
+  {
+    "name": "Hooded Sweatshirt",
+    "description": "Cozy hooded sweatshirt made from premium cotton blend. Features kangaroo pocket and adjustable drawstring.",
+    "price": 4979,
+    "category": "Hoodies",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+    "stock": 85,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Gray", "Black", "Navy", "Red"]
+  },
+  {
+    "name": "Formal Dress Shirt",
+    "description": "Professional dress shirt with wrinkle-resistant fabric. Perfect for office wear and formal occasions.",
+    "price": 5809,
+    "category": "Shirts",
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500",
+    "stock": 95,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["White", "Light Blue", "Pink", "Black"]
+  },
+  {
+    "name": "Summer Dress",
+    "description": "Elegant summer dress with floral pattern and adjustable straps. Lightweight and breathable fabric.",
+    "price": 7469,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500",
+    "stock": 60,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Blue Floral", "Pink Floral", "White"]
+  },
+  {
+    "name": "Running Shoes",
+    "description": "High-performance running shoes with cushioned sole and breathable mesh upper. Perfect for daily workouts.",
+    "price": 10789,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
+    "stock": 75,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["White", "Black", "Blue", "Red"]
+  },
+  {
+    "name": "Leather Jacket",
+    "description": "Classic leather jacket with zip front and quilted lining. Timeless style with modern comfort.",
+    "price": 24899,
+    "category": "Jackets",
+    "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500",
+    "stock": 25,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black", "Brown"]
+  },
+  {
+    "name": "Cargo Pants",
+    "description": "Comfortable cargo pants with multiple pockets and adjustable waist. Perfect for outdoor activities.",
+    "price": 5394,
+    "category": "Pants",
+    "image": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500",
+    "stock": 70,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Khaki", "Olive", "Black", "Navy"]
+  },
+  {
+    "name": "Polo Shirt",
+    "description": "Classic polo shirt with embroidered logo and breathable fabric. Ideal for casual and semi-formal wear.",
+    "price": 3734,
+    "category": "Shirts",
+    "image": "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500",
+    "stock": 110,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Navy", "Red", "White", "Gray"]
+  },
+  {
+    "name": "Evening Gown",
+    "description": "Stunning evening gown with sequin embellishments and flowing silhouette. Perfect for special occasions.",
+    "price": 33199,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500",
+    "stock": 15,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Black", "Red", "Navy", "Silver"]
+  },
+  {
+    "name": "Casual Sneakers",
+    "description": "Comfortable casual sneakers with rubber sole and canvas upper. Perfect for everyday wear.",
+    "price": 6639,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500",
+    "stock": 90,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["White", "Black", "Red", "Blue"]
+  },
+  {
+    "name": "Winter Coat",
+    "description": "Warm winter coat with faux fur hood and water-resistant exterior. Perfect for cold weather.",
+    "price": 16599,
+    "category": "Jackets",
+    "image": "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=500",
+    "stock": 40,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black", "Navy", "Gray", "Red"]
+  },
+  {
+    "name": "Graphic T-Shirt",
+    "description": "Trendy graphic t-shirt with unique artwork and comfortable cotton fabric. Express your style.",
+    "price": 2489,
+    "category": "T-Shirts",
+    "image": "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=500",
+    "stock": 130,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["White", "Black", "Gray"]
+  },
+  {
+    "name": "Skinny Jeans",
+    "description": "Fashion-forward skinny jeans with stretch denim and modern fit. Perfect for trendy looks.",
+    "price": 7054,
+    "category": "Jeans",
+    "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500",
+    "stock": 95,
+    "sizes": ["26", "28", "30", "32", "34", "36"],
+    "colors": ["Blue", "Black", "Gray", "White"]
+  },
+  {
+    "name": "Zip-Up Hoodie",
+    "description": "Versatile zip-up hoodie with front pockets and comfortable fit. Perfect for layering.",
+    "price": 4564,
+    "category": "Hoodies",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+    "stock": 100,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Gray", "Black", "Navy", "Green"]
+  },
+  {
+    "name": "Business Suit",
+    "description": "Professional business suit with tailored fit and wrinkle-resistant fabric. Perfect for corporate settings.",
+    "price": 24899,
+    "category": "Suits",
+    "image": "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=500",
+    "stock": 30,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Navy", "Charcoal", "Black"]
+  },
+  {
+    "name": "Cocktail Dress",
+    "description": "Elegant cocktail dress with flattering silhouette and sophisticated design. Perfect for parties.",
+    "price": 12449,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500",
+    "stock": 35,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Black", "Red", "Navy", "Emerald"]
+  },
+  {
+    "name": "Formal Shoes",
+    "description": "Classic formal shoes with leather upper and comfortable insole. Perfect for business and formal events.",
+    "price": 9959,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500",
+    "stock": 50,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["Black", "Brown", "Tan"]
+  },
+  {
+    "name": "Bomber Jacket",
+    "description": "Stylish bomber jacket with ribbed cuffs and collar. Perfect for casual and street style looks.",
+    "price": 10789,
+    "category": "Jackets",
+    "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500",
+    "stock": 55,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black", "Olive", "Navy", "Red"]
+  },
+  {
+    "name": "Chino Pants",
+    "description": "Versatile chino pants with comfortable fit and wrinkle-resistant fabric. Perfect for casual and business casual.",
+    "price": 4979,
+    "category": "Pants",
+    "image": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500",
+    "stock": 80,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Khaki", "Navy", "Olive", "Gray"]
+  },
+  {
+    "name": "Oxford Shirt",
+    "description": "Classic Oxford shirt with button-down collar and comfortable cotton fabric. Perfect for preppy style.",
+    "price": 4149,
+    "category": "Shirts",
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500",
+    "stock": 105,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["White", "Light Blue", "Pink", "Yellow"]
+  },
+  {
+    "name": "Maxi Dress",
+    "description": "Flowing maxi dress with bohemian style and comfortable fit. Perfect for summer and beach wear.",
+    "price": 6639,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500",
+    "stock": 45,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Blue", "Green", "Pink", "White"]
+  },
+  {
+    "name": "Hiking Boots",
+    "description": "Durable hiking boots with waterproof exterior and comfortable insole. Perfect for outdoor adventures.",
+    "price": 13279,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500",
+    "stock": 35,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["Brown", "Black", "Tan"]
+  },
+  {
+    "name": "Blazer",
+    "description": "Sophisticated blazer with tailored fit and professional appearance. Perfect for business and formal occasions.",
+    "price": 14939,
+    "category": "Jackets",
+    "image": "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=500",
+    "stock": 40,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Navy", "Black", "Gray", "Blush"]
+  },
+  {
+    "name": "Striped T-Shirt",
+    "description": "Classic striped t-shirt with comfortable cotton fabric and timeless design. Perfect for casual wear.",
+    "price": 2323,
+    "category": "T-Shirts",
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+    "stock": 140,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Navy/White", "Red/White", "Black/White"]
+  },
+  {
+    "name": "Bootcut Jeans",
+    "description": "Classic bootcut jeans with comfortable fit and traditional styling. Perfect for casual and western looks.",
+    "price": 6224,
+    "category": "Jeans",
+    "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500",
+    "stock": 85,
+    "sizes": ["28", "30", "32", "34", "36", "38"],
+    "colors": ["Blue", "Black", "Gray"]
+  },
+  {
+    "name": "Fleece Hoodie",
+    "description": "Warm fleece hoodie with soft interior and comfortable fit. Perfect for cold weather and outdoor activities.",
+    "price": 5394,
+    "category": "Hoodies",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+    "stock": 70,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Gray", "Black", "Navy", "Red"]
+  },
+  {
+    "name": "Tuxedo",
+    "description": "Elegant tuxedo with satin lapels and tailored fit. Perfect for black tie events and formal occasions.",
+    "price": 41499,
+    "category": "Suits",
+    "image": "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=500",
+    "stock": 20,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black"]
+  },
+  {
+    "name": "Wrap Dress",
+    "description": "Flattering wrap dress with adjustable fit and elegant design. Perfect for office and casual wear.",
+    "price": 7884,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500",
+    "stock": 50,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Black", "Navy", "Red", "Floral"]
+  },
+  {
+    "name": "Loafers",
+    "description": "Classic loafers with leather upper and comfortable insole. Perfect for business casual and preppy style.",
+    "price": 7469,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500",
+    "stock": 60,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["Brown", "Black", "Tan"]
+  },
+  {
+    "name": "Trench Coat",
+    "description": "Classic trench coat with belt and water-resistant fabric. Perfect for rainy weather and sophisticated style.",
+    "price": 20749,
+    "category": "Jackets",
+    "image": "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=500",
+    "stock": 30,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Beige", "Black", "Navy"]
+  },
+  {
+    "name": "Jogger Pants",
+    "description": "Comfortable jogger pants with elastic cuffs and drawstring waist. Perfect for casual and athleisure wear.",
+    "price": 4564,
+    "category": "Pants",
+    "image": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500",
+    "stock": 90,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Gray", "Black", "Navy", "Olive"]
+  },
+  {
+    "name": "Flannel Shirt",
+    "description": "Classic flannel shirt with soft cotton fabric and traditional plaid pattern. Perfect for casual and outdoor wear.",
+    "price": 3319,
+    "category": "Shirts",
+    "image": "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500",
+    "stock": 115,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Red/Black", "Blue/Black", "Green/Black", "Gray/Black"]
+  },
+  {
+    "name": "Bodycon Dress",
+    "description": "Fitted bodycon dress with stretch fabric and flattering silhouette. Perfect for parties and night out.",
+    "price": 5809,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500",
+    "stock": 40,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Black", "Red", "Navy", "Emerald"]
+  },
+  {
+    "name": "Chelsea Boots",
+    "description": "Stylish Chelsea boots with elastic side panels and comfortable fit. Perfect for casual and smart casual looks.",
+    "price": 11619,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500",
+    "stock": 45,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["Black", "Brown", "Tan"]
+  },
+  {
+    "name": "Puffer Jacket",
+    "description": "Warm puffer jacket with synthetic insulation and water-resistant exterior. Perfect for extreme cold weather.",
+    "price": 14939,
+    "category": "Jackets",
+    "image": "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=500",
+    "stock": 35,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black", "Navy", "Red", "Yellow"]
+  },
+  {
+    "name": "V-Neck T-Shirt",
+    "description": "Classic V-neck t-shirt with comfortable cotton fabric and flattering fit. Perfect for layering and casual wear.",
+    "price": 1908,
+    "category": "T-Shirts",
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+    "stock": 160,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["White", "Black", "Gray", "Navy"]
+  },
+  {
+    "name": "Straight Leg Jeans",
+    "description": "Classic straight leg jeans with comfortable fit and traditional styling. Perfect for everyday wear.",
+    "price": 5809,
+    "category": "Jeans",
+    "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500",
+    "stock": 110,
+    "sizes": ["28", "30", "32", "34", "36", "38"],
+    "colors": ["Blue", "Black", "Gray"]
+  },
+  {
+    "name": "Pullover Sweater",
+    "description": "Cozy pullover sweater with soft knit fabric and comfortable fit. Perfect for cold weather and casual wear.",
+    "price": 6224,
+    "category": "Sweaters",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+    "stock": 65,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Gray", "Navy", "Black", "Camel"]
+  },
+  {
+    "name": "Wedding Dress",
+    "description": "Beautiful wedding dress with lace details and flowing silhouette. Perfect for the most special day.",
+    "price": 74699,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500",
+    "stock": 10,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["White", "Ivory"]
+  },
+  {
+    "name": "Ankle Boots",
+    "description": "Stylish ankle boots with block heel and comfortable insole. Perfect for casual and smart casual looks.",
+    "price": 9129,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500",
+    "stock": 55,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["Black", "Brown", "Tan"]
+  },
+  {
+    "name": "Denim Shirt",
+    "description": "Classic denim shirt with button-up front and comfortable fit. Perfect for casual and western style.",
+    "price": 4149,
+    "category": "Shirts",
+    "image": "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500",
+    "stock": 95,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Light Blue", "Dark Blue", "Black"]
+  },
+  {
+    "name": "Pencil Skirt",
+    "description": "Professional pencil skirt with tailored fit and wrinkle-resistant fabric. Perfect for office wear.",
+    "price": 4979,
+    "category": "Skirts",
+    "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500",
+    "stock": 70,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Black", "Navy", "Gray", "Beige"]
+  },
+  {
+    "name": "Slip-On Shoes",
+    "description": "Comfortable slip-on shoes with canvas upper and rubber sole. Perfect for casual and everyday wear.",
+    "price": 5394,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500",
+    "stock": 80,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["White", "Black", "Red", "Blue"]
+  },
+  {
+    "name": "Cardigan",
+    "description": "Soft cardigan with button-up front and comfortable fit. Perfect for layering and casual wear.",
+    "price": 4564,
+    "category": "Sweaters",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+    "stock": 75,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Gray", "Black", "Navy", "Cream"]
+  },
+  {
+    "name": "A-Line Dress",
+    "description": "Flattering A-line dress with comfortable fit and versatile design. Perfect for various occasions.",
+    "price": 7054,
+    "category": "Dresses",
+    "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500",
+    "stock": 55,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Black", "Navy", "Red", "Floral"]
+  },
+  {
+    "name": "Espadrilles",
+    "description": "Comfortable espadrilles with canvas upper and jute sole. Perfect for summer and beach wear.",
+    "price": 4149,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500",
+    "stock": 65,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["White", "Black", "Navy", "Red"]
+  },
+  {
+    "name": "Turtleneck Sweater",
+    "description": "Warm turtleneck sweater with soft knit fabric and comfortable fit. Perfect for cold weather.",
+    "price": 5809,
+    "category": "Sweaters",
+    "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+    "stock": 60,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Black", "Gray", "Navy", "Camel"]
+  },
+  {
+    "name": "Pleated Skirt",
+    "description": "Elegant pleated skirt with comfortable fit and sophisticated design. Perfect for office and casual wear.",
+    "price": 4564,
+    "category": "Skirts",
+    "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500",
+    "stock": 45,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colors": ["Black", "Navy", "Gray", "Plaid"]
+  },
+  {
+    "name": "Mules",
+    "description": "Stylish mules with open back and comfortable insole. Perfect for casual and smart casual looks.",
+    "price": 6639,
+    "category": "Shoes",
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500",
+    "stock": 50,
+    "sizes": ["7", "8", "9", "10", "11", "12"],
+    "colors": ["Black", "Brown", "Tan"]
+  }
+] 

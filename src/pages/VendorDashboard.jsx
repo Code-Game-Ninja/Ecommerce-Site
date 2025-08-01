@@ -40,17 +40,22 @@ const VendorDashboard = () => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       console.log('Fetching vendor data...');
+      
       const [productsData, ordersData] = await Promise.all([
         productsAPI.getAll(),
         vendorOrdersAPI.getAllOrders()
       ]);
+      
       console.log('Products data:', productsData);
       console.log('Orders data:', ordersData);
-      setProducts(productsData);
-      setOrders(ordersData);
+      
+      setProducts(productsData || []);
+      setOrders(ordersData || []);
     } catch (error) {
       console.error('Error fetching data:', error);
+      alert(`Error fetching data: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -304,12 +309,17 @@ const VendorDashboard = () => {
               )}
             </div>
 
-            {/* Recent Orders */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
-              <h2 className="text-xl font-semibold text-white mb-4">Recent Orders</h2>
-              <div className="space-y-4">
-                {orders.slice(0, 5).map((order) => (
-                  <div key={order._id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                                      {/* Recent Orders */}
+             <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
+               <h2 className="text-xl font-semibold text-white mb-4">Recent Orders</h2>
+               <div className="space-y-4">
+                 {orders.length === 0 ? (
+                   <div className="text-center py-8">
+                     <p className="text-gray-400">No orders found. Orders will appear here when customers place them.</p>
+                   </div>
+                 ) : (
+                   orders.slice(0, 5).map((order) => (
+                     <div key={order._id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
                     <div className="flex items-center space-x-4">
                       <div className={`p-2 rounded-lg ${getStatusColor(order.status)}`}>
                         {getStatusIcon(order.status)}
@@ -328,7 +338,8 @@ const VendorDashboard = () => {
                       </p>
                     </div>
                   </div>
-                ))}
+                 ))
+                 )}
               </div>
             </div>
           </motion.div>
@@ -511,8 +522,13 @@ const VendorDashboard = () => {
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
                   <h3 className="text-lg font-semibold text-white mb-6">Your Products ({totalProducts})</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {products.map((product) => (
+                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     {products.length === 0 ? (
+                       <div className="col-span-2 text-center py-8">
+                         <p className="text-gray-400">No products found. Add your first product to get started!</p>
+                       </div>
+                     ) : (
+                       products.map((product) => (
                       <div key={product._id} className="border border-white/10 rounded-xl p-4 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
                         <div className="flex items-start space-x-4">
                           <img
@@ -523,7 +539,7 @@ const VendorDashboard = () => {
                           <div className="flex-1">
                             <h4 className="font-semibold text-white">{product.name}</h4>
                             <p className="text-sm text-gray-300 mb-2 line-clamp-2">{product.description}</p>
-                            <p className="text-lg font-bold text-blue-400">${product.price}</p>
+                            <p className="text-lg font-bold text-blue-400">₹{product.price.toLocaleString('en-IN')}</p>
                             <p className="text-sm text-gray-400">{product.category}</p>
                             <p className={`text-sm ${product.stock > 10 ? 'text-green-400' : product.stock > 0 ? 'text-yellow-400' : 'text-red-400'}`}>
                               Stock: {product.stock}
@@ -545,7 +561,8 @@ const VendorDashboard = () => {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    ))
+                    )}
                   </div>
                 </div>
               </div>
@@ -564,7 +581,12 @@ const VendorDashboard = () => {
               <h2 className="text-xl font-semibold text-white mb-6">Order Management</h2>
               
               <div className="space-y-4">
-                {orders.map((order) => (
+                {orders.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-400">No orders found. Orders will appear here when customers place them.</p>
+                  </div>
+                ) : (
+                  orders.map((order) => (
                   <div key={order._id} className="border border-white/10 rounded-xl p-6 bg-white/5 backdrop-blur-sm">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-4">
@@ -599,10 +621,10 @@ const VendorDashboard = () => {
                             />
                             <div className="flex-1">
                               <p className="text-white font-medium">{item.product?.name || 'Product'}</p>
-                              <p className="text-gray-400 text-sm">Qty: {item.quantity} × ${item.price}</p>
+                              <p className="text-gray-400 text-sm">Qty: {item.quantity} × ₹{item.price.toLocaleString('en-IN')}</p>
                             </div>
                             <div className="text-right">
-                              <p className="text-white font-semibold">${(item.quantity * item.price).toFixed(2)}</p>
+                              <p className="text-white font-semibold">₹{(item.quantity * item.price).toLocaleString('en-IN')}</p>
                             </div>
                           </div>
                         ))}
@@ -648,7 +670,8 @@ const VendorDashboard = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                 ))
+                 )}
               </div>
             </div>
           </motion.div>
