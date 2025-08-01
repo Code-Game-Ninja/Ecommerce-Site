@@ -23,6 +23,18 @@ const authenticateToken = (req) => {
   }
 };
 
+// Product Schema (needed for population)
+const productSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: Number, required: true },
+  category: { type: String, required: true },
+  image: { type: String, required: true },
+  stock: { type: Number, default: 0 },
+  sizes: [{ type: String }],
+  colors: [{ type: String }]
+});
+
 // Order Schema
 const orderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -47,6 +59,7 @@ const orderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
 const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
 
 export default async function handler(req, res) {
