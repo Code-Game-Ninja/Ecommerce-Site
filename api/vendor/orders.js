@@ -17,7 +17,7 @@ const authenticateToken = (req) => {
   }
 
   try {
-    return jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    return jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
     throw new Error('Invalid token');
   }
