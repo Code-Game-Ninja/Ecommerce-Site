@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import Header from './components/Header';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Login from './pages/Login';
@@ -81,10 +82,26 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/products" element={<Products />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/vendor" element={<Vendor />} />
+                  <Route path="/login" element={
+                    <ProtectedRoute requireAuth={false}>
+                      <Login />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/signup" element={
+                    <ProtectedRoute requireAuth={false}>
+                      <Signup />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/vendor" element={
+                    <ProtectedRoute requireVendor={true}>
+                      <Vendor />
+                    </ProtectedRoute>
+                  } />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

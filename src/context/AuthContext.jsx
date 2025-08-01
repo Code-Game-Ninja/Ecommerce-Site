@@ -42,12 +42,18 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   };
 
+  // Check if user is a vendor
+  const isVendor = () => {
+    return user?.role === 'vendor' || user?.isVendor === true;
+  };
+
   const value = {
     user,
     isLoggedIn,
     loading,
     login,
-    logout
+    logout,
+    isVendor
   };
 
   return (

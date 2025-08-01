@@ -29,7 +29,7 @@ const Login = () => {
     try {
       const data = await authAPI.login(formData);
       login(data.user, data.token);
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       setError(error.message || 'Login failed. Please try again.');
     } finally {

@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, default: 'user' }
+  role: { type: String, default: 'customer', enum: ['customer', 'vendor'] }
 });
 
 const productSchema = new mongoose.Schema({
@@ -75,7 +75,7 @@ const authenticateToken = (req, res, next) => {
 // Register user
 app.post('/api/register', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role = 'customer' } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -90,7 +90,8 @@ app.post('/api/register', async (req, res) => {
     const user = new User({
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      role
     });
 
     await user.save();
@@ -108,7 +109,8 @@ app.post('/api/register', async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
   } catch (error) {
@@ -146,7 +148,8 @@ app.post('/api/login', async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
   } catch (error) {

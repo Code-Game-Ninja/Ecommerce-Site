@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 
 const Header = () => {
-  const { user, isLoggedIn, logout } = useAuth();
+  const { user, isLoggedIn, logout, isVendor } = useAuth();
   const { getCartCount } = useCart();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,8 +44,12 @@ const Header = () => {
 
   const userMenuItems = [
     { path: '/dashboard', label: 'Dashboard', icon: Settings },
-    { path: '/vendor', label: 'Vendor Panel', icon: Plus },
   ];
+
+  // Add vendor panel only for vendors
+  if (isVendor()) {
+    userMenuItems.push({ path: '/vendor', label: 'Vendor Panel', icon: Plus });
+  }
 
   return (
     <motion.header
@@ -62,12 +66,12 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          <Link to="/" className="flex items-center space-x-2 group relative z-10">
             <div className="relative">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
                 <span className="text-white font-bold text-lg">S</span>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
               StyleStore
@@ -82,7 +86,7 @@ const Header = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 group ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 group relative ${
                     location.pathname === item.path
                       ? 'bg-white/10 text-white shadow-lg'
                       : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -90,7 +94,7 @@ const Header = () => {
                 >
                   <Icon className="w-4 h-4" />
                   <span>{item.label}</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </Link>
               );
             })}
@@ -103,10 +107,10 @@ const Header = () => {
               to="/cart"
               className="relative p-3 rounded-xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 group"
             >
-              <ShoppingCart className="w-5 h-5 text-white" />
+              <ShoppingCart className="w-5 h-5 text-white relative z-10" />
               {getCartCount() > 0 && (
                 <motion.span
-                  className="absolute -top-2 -right-2 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold"
+                  className="absolute -top-2 -right-2 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold z-20"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
@@ -114,7 +118,7 @@ const Header = () => {
                   {getCartCount()}
                 </motion.span>
               )}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             </Link>
 
             {/* Auth Buttons */}
@@ -122,11 +126,11 @@ const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="flex items-center space-x-2 p-3 rounded-xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 group"
+                  className="flex items-center space-x-2 p-3 rounded-xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 group relative"
                 >
-                  <User className="w-5 h-5 text-white" />
-                  <span className="text-white font-medium">{user?.name}</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <User className="w-5 h-5 text-white relative z-10" />
+                  <span className="text-white font-medium relative z-10">{user?.name}</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </button>
 
                 <AnimatePresence>
@@ -172,13 +176,13 @@ const Header = () => {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="px-4 py-2 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
+                  className="px-4 py-2 rounded-lg text-white hover:bg-white/10 transition-all duration-300 relative z-10"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  className="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 relative z-10"
                 >
                   Sign Up
                 </Link>
@@ -188,7 +192,7 @@ const Header = () => {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+              className="md:hidden p-2 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 relative z-10"
             >
               {isMenuOpen ? (
                 <X className="w-5 h-5 text-white" />
@@ -218,7 +222,7 @@ const Header = () => {
                       key={item.path}
                       to={item.path}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 ${
+                      className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 w-full ${
                         location.pathname === item.path
                           ? 'bg-white/10 text-white'
                           : 'text-gray-300 hover:text-white hover:bg-white/5'
