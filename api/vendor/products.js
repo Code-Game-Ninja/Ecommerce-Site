@@ -82,19 +82,28 @@ export default async function handler(req, res) {
         const tokenData = authenticateToken(req);
         const vendor = await checkVendorRole(tokenData);
 
+        // Ensure vendor fields are provided
         const productData = {
           ...req.body,
           vendor: vendor._id,
           vendorName: vendor.name
         };
 
+        // Validate required fields
+        if (!productData.name || !productData.description || !productData.price || !productData.category || !productData.image) {
+          return res.status(400).json({ message: 'Missing required fields: name, description, price, category, image' });
+        }
+
         const product = new Product(productData);
         await product.save();
         
         res.status(201).json(product);
       } catch (error) {
+        console.error('Vendor product creation error:', error);
         if (error.message.includes('token') || error.message.includes('vendors can access')) {
           res.status(401).json({ message: error.message });
+        } else if (error.name === 'ValidationError') {
+          res.status(400).json({ message: error.message });
         } else {
           res.status(400).json({ message: error.message });
         }

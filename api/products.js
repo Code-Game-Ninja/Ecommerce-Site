@@ -16,8 +16,8 @@ const productSchema = new mongoose.Schema({
   stock: { type: Number, default: 0 },
   sizes: [{ type: String }],
   colors: [{ type: String }],
-  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  vendorName: { type: String, required: true }
+  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  vendorName: { type: String }
 });
 
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
