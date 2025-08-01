@@ -24,25 +24,55 @@ const Product = mongoose.models.Product || mongoose.model('Product', productSche
 
 export default async function handler(req, res) {
   try {
-    await connectDB();
+    console.log('Products API called:', req.method);
+    
+    // Connect to database
+    try {
+      await connectDB();
+      console.log('Database connected successfully');
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
+      return res.status(500).json({ message: 'Database connection failed' });
+    }
 
     switch (req.method) {
       case 'GET':
-        const products = await Product.find().populate('vendor', 'name email');
-        res.json(products);
+        try {
+          console.log('Fetching products...');
+          const products = await Product.find().populate('vendor', 'name email').lean();
+          console.log(`Found ${products.length} products`);
+          
+          // Return empty array if no products found
+          if (!products || products.length === 0) {
+            console.log('No products found in database');
+            return res.json([]);
+          }
+          
+          res.json(products);
+        } catch (getError) {
+          console.error('Error fetching products:', getError);
+          res.status(500).json({ message: 'Error fetching products', error: getError.message });
+        }
         break;
 
       case 'POST':
-        const product = new Product(req.body);
-        await product.save();
-        res.status(201).json(product);
+        try {
+          console.log('Creating product:', req.body);
+          const product = new Product(req.body);
+          await product.save();
+          console.log('Product created successfully');
+          res.status(201).json(product);
+        } catch (postError) {
+          console.error('Error creating product:', postError);
+          res.status(500).json({ message: 'Error creating product' });
+        }
         break;
 
       default:
         res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Products error:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Products API error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 } 
