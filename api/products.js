@@ -6,6 +6,16 @@ const connectDB = async () => {
   await mongoose.connect(process.env.MONGODB_URI);
 };
 
+// User Schema (needed for population)
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, default: 'customer', enum: ['customer', 'vendor'] }
+});
+
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
 // Product Schema
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -48,7 +58,14 @@ export default async function handler(req, res) {
             return res.json([]);
           }
           
-          res.json(products);
+          // Clean up products data
+          const cleanProducts = products.map(product => ({
+            ...product,
+            vendor: product.vendor || null,
+            vendorName: product.vendorName || 'Unknown Vendor'
+          }));
+          
+          res.json(cleanProducts);
         } catch (getError) {
           console.error('Error fetching products:', getError);
           res.status(500).json({ message: 'Error fetching products', error: getError.message });
