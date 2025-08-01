@@ -75,21 +75,21 @@ export const productsAPI = {
 
   // Vendor API for uploading products
   createProduct: async (productData) => {
-    return apiRequest('/products', {
+    return apiRequest('/vendor/products', {
       method: 'POST',
       body: JSON.stringify(productData),
     });
   },
 
   updateProduct: async (id, productData) => {
-    return apiRequest(`/products/${id}`, {
+    return apiRequest(`/vendor/products/${id}`, {
       method: 'PUT',
       body: JSON.stringify(productData),
     });
   },
 
   deleteProduct: async (id) => {
-    return apiRequest(`/products/${id}`, {
+    return apiRequest(`/vendor/products/${id}`, {
       method: 'DELETE',
     });
   },

@@ -44,7 +44,7 @@ const VendorDashboard = () => {
       console.log('Fetching vendor data...');
       
       const [productsData, ordersData] = await Promise.all([
-        productsAPI.getAll(),
+        productsAPI.getVendorProducts(),
         vendorOrdersAPI.getAllOrders()
       ]);
       
@@ -263,10 +263,10 @@ const VendorDashboard = () => {
 
               <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-400 text-sm">Total Revenue</p>
-                    <p className="text-2xl font-bold text-white">${totalRevenue.toFixed(2)}</p>
-                  </div>
+                                     <div>
+                     <p className="text-gray-400 text-sm">Total Revenue</p>
+                     <p className="text-2xl font-bold text-white">₹{totalRevenue.toLocaleString('en-IN')}</p>
+                   </div>
                   <DollarSign className="w-8 h-8 text-green-400" />
                 </div>
               </div>
@@ -324,10 +324,10 @@ const VendorDashboard = () => {
                       <div className={`p-2 rounded-lg ${getStatusColor(order.status)}`}>
                         {getStatusIcon(order.status)}
                       </div>
-                      <div>
-                        <p className="text-white font-medium">Order #{order._id.slice(-6)}</p>
-                        <p className="text-gray-400 text-sm">${order.total.toFixed(2)}</p>
-                      </div>
+                                             <div>
+                         <p className="text-white font-medium">Order #{order._id.slice(-6)}</p>
+                         <p className="text-gray-400 text-sm">₹{order.total.toLocaleString('en-IN')}</p>
+                       </div>
                     </div>
                     <div className="text-right">
                       <p className={`text-sm px-2 py-1 rounded-full border ${getStatusColor(order.status)}`}>
@@ -402,10 +402,10 @@ const VendorDashboard = () => {
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-1">
-                            Price ($)
-                          </label>
+                                                 <div>
+                           <label className="block text-sm font-medium text-gray-300 mb-1">
+                             Price (₹)
+                           </label>
                           <input
                             type="number"
                             name="price"
@@ -625,8 +625,8 @@ const VendorDashboard = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-blue-400">${order.total.toFixed(2)}</p>
+                                             <div className="text-right">
+                         <p className="text-2xl font-bold text-blue-400">₹{order.total.toLocaleString('en-IN')}</p>
                         <p className={`text-sm px-3 py-1 rounded-full border ${getStatusColor(order.status)}`}>
                           {order.status}
                         </p>

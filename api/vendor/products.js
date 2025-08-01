@@ -99,6 +99,61 @@ export default async function handler(req, res) {
           res.status(400).json({ message: error.message });
         }
       }
+    } else if (req.method === 'PUT') {
+      try {
+        const tokenData = authenticateToken(req);
+        const vendor = await checkVendorRole(tokenData);
+        const { id } = req.query;
+
+        if (!id) {
+          return res.status(400).json({ message: 'Product ID is required' });
+        }
+
+        // Check if product belongs to this vendor
+        const existingProduct = await Product.findOne({ _id: id, vendor: vendor._id });
+        if (!existingProduct) {
+          return res.status(404).json({ message: 'Product not found or access denied' });
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+          id,
+          { ...req.body, vendor: vendor._id, vendorName: vendor.name },
+          { new: true }
+        ).populate('vendor', 'name email');
+
+        res.json(updatedProduct);
+      } catch (error) {
+        if (error.message.includes('token') || error.message.includes('vendors can access')) {
+          res.status(401).json({ message: error.message });
+        } else {
+          res.status(400).json({ message: error.message });
+        }
+      }
+    } else if (req.method === 'DELETE') {
+      try {
+        const tokenData = authenticateToken(req);
+        const vendor = await checkVendorRole(tokenData);
+        const { id } = req.query;
+
+        if (!id) {
+          return res.status(400).json({ message: 'Product ID is required' });
+        }
+
+        // Check if product belongs to this vendor
+        const existingProduct = await Product.findOne({ _id: id, vendor: vendor._id });
+        if (!existingProduct) {
+          return res.status(404).json({ message: 'Product not found or access denied' });
+        }
+
+        await Product.findByIdAndDelete(id);
+        res.json({ message: 'Product deleted successfully' });
+      } catch (error) {
+        if (error.message.includes('token') || error.message.includes('vendors can access')) {
+          res.status(401).json({ message: error.message });
+        } else {
+          res.status(400).json({ message: error.message });
+        }
+      }
     } else {
       res.status(405).json({ message: 'Method not allowed' });
     }
