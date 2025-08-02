@@ -65,6 +65,10 @@ const checkVendorRole = async (tokenData) => {
 };
 
 export default async function handler(req, res) {
+  if (req.method !== 'PUT') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
   try {
     await connectDB();
 
@@ -74,58 +78,33 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Product ID is required' });
     }
 
-    if (req.method === 'PUT') {
-      try {
-        const tokenData = authenticateToken(req);
-        const vendor = await checkVendorRole(tokenData);
+    try {
+      const tokenData = authenticateToken(req);
+      const vendor = await checkVendorRole(tokenData);
 
-        // Check if product belongs to this vendor
-        const existingProduct = await Product.findOne({ _id: id, vendor: vendor._id });
-        if (!existingProduct) {
-          return res.status(404).json({ message: 'Product not found or access denied' });
-        }
-
-        const updatedProduct = await Product.findByIdAndUpdate(
-          id,
-          { ...req.body, vendor: vendor._id, vendorName: vendor.name },
-          { new: true }
-        ).populate('vendor', 'name email');
-
-        res.json(updatedProduct);
-      } catch (error) {
-        console.error('Update product error:', error);
-        if (error.message.includes('token') || error.message.includes('vendors can access')) {
-          res.status(401).json({ message: error.message });
-        } else {
-          res.status(400).json({ message: error.message });
-        }
+      // Check if product belongs to this vendor
+      const existingProduct = await Product.findOne({ _id: id, vendor: vendor._id });
+      if (!existingProduct) {
+        return res.status(404).json({ message: 'Product not found or access denied' });
       }
-    } else if (req.method === 'DELETE') {
-      try {
-        const tokenData = authenticateToken(req);
-        const vendor = await checkVendorRole(tokenData);
 
-        // Check if product belongs to this vendor
-        const existingProduct = await Product.findOne({ _id: id, vendor: vendor._id });
-        if (!existingProduct) {
-          return res.status(404).json({ message: 'Product not found or access denied' });
-        }
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { ...req.body, vendor: vendor._id, vendorName: vendor.name },
+        { new: true }
+      ).populate('vendor', 'name email');
 
-        await Product.findByIdAndDelete(id);
-        res.json({ message: 'Product deleted successfully' });
-      } catch (error) {
-        console.error('Delete product error:', error);
-        if (error.message.includes('token') || error.message.includes('vendors can access')) {
-          res.status(401).json({ message: error.message });
-        } else {
-          res.status(400).json({ message: error.message });
-        }
+      res.json(updatedProduct);
+    } catch (error) {
+      console.error('Update product error:', error);
+      if (error.message.includes('token') || error.message.includes('vendors can access')) {
+        res.status(401).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: error.message });
       }
-    } else {
-      res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Vendor product operations error:', error);
+    console.error('Vendor product update error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 } 

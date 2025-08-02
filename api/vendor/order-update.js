@@ -18,7 +18,7 @@ const authenticateToken = (req) => {
 
   try {
     return jwt.verify(token, process.env.JWT_SECRET);
-  } catch (err) {
+  } catch {
     throw new Error('Invalid token');
   }
 };
@@ -90,6 +90,10 @@ const Product = mongoose.models.Product || mongoose.model('Product', productSche
 const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
 
 export default async function handler(req, res) {
+  if (req.method !== 'PUT') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
   try {
     await connectDB();
 
@@ -99,42 +103,38 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Order ID is required' });
     }
 
-    if (req.method === 'PUT') {
-      try {
-        const tokenData = authenticateToken(req);
-        const vendor = await checkVendorRole(tokenData);
-        
-        const { status } = req.body;
-        
-        if (!status) {
-          return res.status(400).json({ message: 'Status is required' });
-        }
-        
-        const updatedOrder = await Order.findByIdAndUpdate(
-          id,
-          { status },
-          { new: true }
-        ).populate('user', 'name email')
-         .populate('products.product', 'name image category vendor vendorName');
-        
-        if (!updatedOrder) {
-          return res.status(404).json({ message: 'Order not found' });
-        }
-        
-        res.json(updatedOrder);
-      } catch (error) {
-        console.error('Update order status error:', error);
-        if (error.message.includes('token') || error.message.includes('Vendor access')) {
-          res.status(401).json({ message: error.message });
-        } else {
-          res.status(500).json({ message: 'Server error' });
-        }
+    try {
+      const tokenData = authenticateToken(req);
+      await checkVendorRole(tokenData);
+      
+      const { status } = req.body;
+      
+      if (!status) {
+        return res.status(400).json({ message: 'Status is required' });
       }
-    } else {
-      res.status(405).json({ message: 'Method not allowed' });
+      
+      const updatedOrder = await Order.findByIdAndUpdate(
+        id,
+        { status },
+        { new: true }
+      ).populate('user', 'name email')
+       .populate('products.product', 'name image category vendor vendorName');
+      
+      if (!updatedOrder) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+      
+      res.json(updatedOrder);
+    } catch (error) {
+      console.error('Update order status error:', error);
+      if (error.message.includes('token') || error.message.includes('Vendor access')) {
+        res.status(401).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: 'Server error' });
+      }
     }
   } catch (error) {
-    console.error('Vendor order operations error:', error);
+    console.error('Vendor order update error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 } 

@@ -96,14 +96,14 @@ export const productsAPI = {
   },
 
   updateProduct: async (id, productData) => {
-    return apiRequest(`/vendor/products/${id}`, {
+    return apiRequest(`/vendor/product-update?id=${id}`, {
       method: 'PUT',
       body: JSON.stringify(productData),
     });
   },
 
   deleteProduct: async (id) => {
-    return apiRequest(`/vendor/products/${id}`, {
+    return apiRequest(`/vendor/product-delete?id=${id}`, {
       method: 'DELETE',
     });
   },
@@ -146,7 +146,7 @@ export const vendorOrdersAPI = {
   },
 
   updateOrderStatus: async (orderId, status) => {
-    return apiRequest(`/vendor/orders/${orderId}`, {
+    return apiRequest(`/vendor/order-update?id=${orderId}`, {
       method: 'PUT',
       body: JSON.stringify({ status }),
     });
