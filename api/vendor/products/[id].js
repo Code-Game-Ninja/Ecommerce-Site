@@ -68,54 +68,64 @@ export default async function handler(req, res) {
   try {
     await connectDB();
 
-    if (req.method === 'GET') {
-      try {
-        const tokenData = authenticateToken(req);
-        const vendor = await checkVendorRole(tokenData);
-        const products = await Product.find({ vendor: vendor._id }).populate('vendor', 'name email');
-        res.json(products);
-      } catch (error) {
-        res.status(401).json({ message: error.message });
-      }
-    } else if (req.method === 'POST') {
+    const { id } = req.query;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Product ID is required' });
+    }
+
+    if (req.method === 'PUT') {
       try {
         const tokenData = authenticateToken(req);
         const vendor = await checkVendorRole(tokenData);
 
-        // Ensure vendor fields are provided
-        const productData = {
-          ...req.body,
-          vendor: vendor._id,
-          vendorName: vendor.name || 'Unknown Vendor'
-        };
-
-        // Validate required fields
-        if (!productData.name || !productData.description || !productData.price || !productData.category || !productData.image) {
-          return res.status(400).json({ message: 'Missing required fields: name, description, price, category, image' });
+        // Check if product belongs to this vendor
+        const existingProduct = await Product.findOne({ _id: id, vendor: vendor._id });
+        if (!existingProduct) {
+          return res.status(404).json({ message: 'Product not found or access denied' });
         }
 
-        console.log('Creating vendor product:', productData);
-        const product = new Product(productData);
-        await product.save();
-        
-        console.log('Product created successfully:', product._id);
-        res.status(201).json(product);
+        const updatedProduct = await Product.findByIdAndUpdate(
+          id,
+          { ...req.body, vendor: vendor._id, vendorName: vendor.name },
+          { new: true }
+        ).populate('vendor', 'name email');
+
+        res.json(updatedProduct);
       } catch (error) {
-        console.error('Vendor product creation error:', error);
+        console.error('Update product error:', error);
         if (error.message.includes('token') || error.message.includes('vendors can access')) {
           res.status(401).json({ message: error.message });
-        } else if (error.name === 'ValidationError') {
-          res.status(400).json({ message: error.message });
         } else {
           res.status(400).json({ message: error.message });
         }
       }
+    } else if (req.method === 'DELETE') {
+      try {
+        const tokenData = authenticateToken(req);
+        const vendor = await checkVendorRole(tokenData);
 
+        // Check if product belongs to this vendor
+        const existingProduct = await Product.findOne({ _id: id, vendor: vendor._id });
+        if (!existingProduct) {
+          return res.status(404).json({ message: 'Product not found or access denied' });
+        }
+
+        await Product.findByIdAndDelete(id);
+        res.json({ message: 'Product deleted successfully' });
+      } catch (error) {
+        console.error('Delete product error:', error);
+        if (error.message.includes('token') || error.message.includes('vendors can access')) {
+          res.status(401).json({ message: error.message });
+        } else {
+          res.status(400).json({ message: error.message });
+        }
+      }
     } else {
       res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Vendor products error:', error);
+    console.error('Vendor product operations error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 } 
