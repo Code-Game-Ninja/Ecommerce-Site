@@ -1,10 +1,15 @@
 import { useCart } from '../context/CartContext';
+import { GlowCard } from './GlowCard';
 
 const CartItem = ({ item }) => {
   const { updateQuantity, removeFromCart } = useCart();
 
   return (
-    <div className="flex items-center space-x-3 p-6 border-b border-white/10">
+    <GlowCard 
+      glowColor="blue" 
+      customSize={true}
+      className="flex items-center space-x-3 p-6 border-b border-white/10 w-full mb-4"
+    >
       <img
         src={item.image}
         alt={item.name}
@@ -35,7 +40,7 @@ const CartItem = ({ item }) => {
           ×
         </button>
       </div>
-    </div>
+    </GlowCard>
   );
 };
 

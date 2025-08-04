@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { ShoppingCart, Heart, Star, Eye } from 'lucide-react';
+import { GlowCard } from './GlowCard';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -19,7 +20,6 @@ const ProductCard = ({ product }) => {
 
   return (
     <motion.div
-      className="group relative bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden hover:bg-white/10 transition-all duration-500"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ 
@@ -29,6 +29,11 @@ const ProductCard = ({ product }) => {
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
+      <GlowCard 
+        glowColor="purple" 
+        customSize={true}
+        className="group relative overflow-hidden w-full"
+      >
       {/* Background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
@@ -145,6 +150,7 @@ const ProductCard = ({ product }) => {
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-400/30 rounded-full blur-sm animate-pulse"></div>
         <div className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-blue-400/40 rounded-full blur-sm animate-pulse delay-1000"></div>
       </div>
+      </GlowCard>
     </motion.div>
   );
 };

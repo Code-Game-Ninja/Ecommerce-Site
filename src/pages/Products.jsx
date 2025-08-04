@@ -73,7 +73,16 @@ const Products = () => {
       setProducts(data || []);
     } catch (error) {
       console.error('Error fetching products:', error);
-      // Retry once after 2 seconds
+      
+      // Don't retry if it's an authentication error
+      if (error.message.includes('Authentication failed') || error.message.includes('Invalid token')) {
+        console.log('Authentication error - not retrying');
+        setProducts([]);
+        setLoading(false);
+        return;
+      }
+      
+      // Retry once after 2 seconds for other errors
       setTimeout(async () => {
         try {
           console.log('Retrying product fetch...');

@@ -8,9 +8,39 @@ const getAuthToken = () => {
   return localStorage.getItem('token');
 };
 
+// Helper function to show authentication error message
+const showAuthError = (message) => {
+  // Only show message if we're not already on login/signup page
+  if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/signup')) {
+    console.warn('Authentication Error:', message);
+    // You can add a toast notification here if you have a notification system
+  }
+};
+
+// List of endpoints that require authentication
+const AUTH_REQUIRED_ENDPOINTS = [
+  '/orders',
+  '/admin/orders',
+  '/vendor/products',
+  '/vendor/product-update',
+  '/vendor/product-delete',
+  '/vendor/orders',
+  '/vendor/order-update'
+];
+
+// Helper function to check if endpoint requires auth
+const requiresAuth = (endpoint) => {
+  return AUTH_REQUIRED_ENDPOINTS.some(authEndpoint => 
+    endpoint.startsWith(authEndpoint)
+  );
+};
+
 // Helper function to make API requests
 const apiRequest = async (endpoint, options = {}) => {
   const token = getAuthToken();
+  const needsAuth = requiresAuth(endpoint);
+  
+  console.log(`API Request to ${endpoint}:`, { needsAuth, hasToken: !!token });
   
   const config = {
     headers: {
@@ -18,7 +48,7 @@ const apiRequest = async (endpoint, options = {}) => {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache',
       'Expires': '0',
-      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(needsAuth && token && { Authorization: `Bearer ${token}` }),
       ...options.headers,
     },
     ...options,
@@ -40,6 +70,15 @@ const apiRequest = async (endpoint, options = {}) => {
     }
     
     if (!response.ok) {
+      // Handle 401 errors specifically
+      if (response.status === 401) {
+        console.log('401 Unauthorized error - clearing invalid tokens');
+        // Clear invalid token from localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        showAuthError('Your session has expired. Please login again.');
+        throw new Error('Authentication failed. Please login again.');
+      }
       throw new Error(data.message || `API request failed with status ${response.status}`);
     }
     

@@ -7,6 +7,7 @@ import { productsAPI } from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import Orb from '../components/Orb';
 import TextType from '../components/TextType';
+import { GlowCard } from '../components/GlowCard';
 import { ShoppingBag, Star, TrendingUp, Shield, Truck, ArrowRight, Sparkles } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,6 +31,10 @@ const Home = () => {
       setProducts(data.slice(0, 6)); // Show only 6 featured products
     } catch (error) {
       console.error('Error fetching products:', error);
+      // Don't show error for authentication issues on home page
+      if (!error.message.includes('Authentication failed') && !error.message.includes('Invalid token')) {
+        // Handle other errors if needed
+      }
     } finally {
       setLoading(false);
     }
@@ -273,16 +278,20 @@ const Home = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="group relative p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative z-10">
-                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-8 h-8 text-white" />
+                                     <GlowCard 
+                     glowColor="purple" 
+                     customSize={true}
+                     className="group relative p-8"
+                   >
+                    <div className="relative z-10">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-4 text-white">{feature.title}</h3>
+                      <p className="text-gray-300">{feature.description}</p>
                     </div>
-                    <h3 className="text-xl font-semibold mb-4 text-white">{feature.title}</h3>
-                    <p className="text-gray-300">{feature.description}</p>
-                  </div>
+                  </GlowCard>
                 </motion.div>
               );
             })}
@@ -354,10 +363,13 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative p-12 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-3xl border border-white/10 backdrop-blur-sm"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-blue-500/5 rounded-3xl"></div>
-            <div className="relative z-10">
+                         <GlowCard 
+               glowColor="blue" 
+               customSize={true}
+               className="p-12"
+             >
+              <div className="relative z-10">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 Ready to Transform Your <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Wardrobe</span>?
               </h2>
@@ -372,6 +384,7 @@ const Home = () => {
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
+            </GlowCard>
           </motion.div>
         </div>
       </section>

@@ -15,6 +15,7 @@ import VendorDashboard from './pages/VendorDashboard';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
+import GlowCardDemo from './components/GlowCardDemo';
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -48,6 +49,33 @@ function App() {
         ease: "easeOut"
       }
     );
+
+    // Global error handler for authentication issues
+    const handleGlobalError = (event) => {
+      if (event.error && event.error.message && 
+          (event.error.message.includes('Invalid token') || 
+           event.error.message.includes('Authentication failed'))) {
+        // Clear invalid tokens
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        console.log('Cleared invalid authentication tokens');
+      }
+    };
+
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', (event) => {
+      if (event.reason && event.reason.message && 
+          (event.reason.message.includes('Invalid token') || 
+           event.reason.message.includes('Authentication failed'))) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        console.log('Cleared invalid authentication tokens from unhandled rejection');
+      }
+    });
+
+    return () => {
+      window.removeEventListener('error', handleGlobalError);
+    };
   }, []);
 
   return (
@@ -122,6 +150,7 @@ function App() {
                       <Checkout />
                     </ErrorBoundary>
                   } />
+                  <Route path="/glow-demo" element={<GlowCardDemo />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

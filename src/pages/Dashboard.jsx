@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ordersAPI } from '../utils/api';
 import { RefreshCw } from 'lucide-react';
+import { GlowCard } from '../components/GlowCard';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -72,7 +73,11 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Account Information */}
           <div className="lg:col-span-1">
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
+            <GlowCard 
+              glowColor="purple" 
+              customSize={true}
+              className="p-6"
+            >
               <h2 className="text-xl font-semibold text-white mb-4">Account Information</h2>
               <div className="space-y-3">
                 <div>
@@ -90,10 +95,14 @@ const Dashboard = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </GlowCard>
 
             {/* Quick Stats */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 mt-6 shadow-2xl">
+            <GlowCard 
+              glowColor="green" 
+              customSize={true}
+              className="p-6 mt-6"
+            >
               <h2 className="text-xl font-semibold text-white mb-4">Quick Stats</h2>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
@@ -107,12 +116,16 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </GlowCard>
           </div>
 
                      {/* Order History */}
            <div className="lg:col-span-2">
-             <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-2xl">
+             <GlowCard 
+               glowColor="blue" 
+               customSize={true}
+               className="p-6"
+             >
                <h2 className="text-xl font-semibold text-white mb-6">Order History</h2>
                
                {loading ? (
@@ -174,7 +187,7 @@ const Dashboard = () => {
                    ))}
                  </div>
                )}
-             </div>
+             </GlowCard>
            </div>
         </div>
       </div>
